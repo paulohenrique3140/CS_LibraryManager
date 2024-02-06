@@ -1,0 +1,37 @@
+# Projeto: Sistema de Gerenciamento de Biblioteca
+
+#_Classes:
+
+1.	Livro:
+
+   *	Atributos: titulo, autor, anoPublicacao, isbn, disponivel (para indicar se o livro está disponível para empréstimo).
+   *	Métodos: Emprestar(), Devolver(), ExibirDetalhes().
+
+2.	Biblioteca:
+
+   *	Atributos: listaDeLivros (uma lista para armazenar os livros disponíveis na biblioteca).
+   *	Métodos: AdicionarLivro(), RemoverLivro(), ProcurarLivroPorTitulo(), ListarLivrosDisponiveis().
+
+3.	Cliente:
+
+   *	Atributos: nome, idCliente, livrosEmprestados (uma lista para armazenar os livros que o cliente tem emprestados).
+   *	Métodos: RealizarEmprestimo(), RealizarDevolucao(), ExibirLivrosEmprestados().
+
+*	Estrutura do Programa:
+
+1.	Program Class:
+   *	Método Main(): Instanciar alguns livros, criar uma biblioteca, e simular interações de empréstimo/devolução com os clientes.
+
+#_Detalhes Adicionais:
+
+* Utilize construtores para inicializar as instâncias das classes.
+
+* Sobrecarregue métodos, como por exemplo, para permitir diferentes formas de adicionar um livro (por título, por ISBN, etc.).
+
+* Utilize encapsulamento para proteger os atributos e garantir acesso controlado.
+
+* Implemente um método na classe Livro para exibir detalhes do livro, incluindo se está disponível ou emprestado.
+
+* Considere o uso de membros estáticos, como um contador de livros, para atribuir IDs aos livros de forma automática.
+
+Este projeto permitirá que você pratique a criação e manipulação de classes, construtores, encapsulamento, sobrecarga de métodos, e trabalhe com arrays ou listas para armazenar e gerenciar dados. Além disso, você terá a oportunidade de entender como os objetos interagem dentro de um sistema mais complexo. Boa prática!
