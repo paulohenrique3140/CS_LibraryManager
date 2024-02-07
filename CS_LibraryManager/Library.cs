@@ -8,7 +8,9 @@ namespace CS_LibraryManager {
     internal class Library {
         public List<Book> Collection { get; private set; }
 
-        public Library() { }
+        public Library() {
+            Collection = new List<Book>();
+        }
                 
         public void AddBook(Book book) {
             Collection.Add(book);
@@ -30,6 +32,14 @@ namespace CS_LibraryManager {
                 }
             }
             return null;
+        }
+
+        public string ShowCollection() {
+            StringBuilder sb = new StringBuilder();
+            foreach (Book book in Collection) {
+                sb.AppendLine(book.ToString());
+            }
+            return sb.ToString();
         }
 
         public List<Book> ShowAvailableBooks() {

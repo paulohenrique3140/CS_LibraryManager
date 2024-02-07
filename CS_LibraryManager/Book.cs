@@ -10,7 +10,7 @@ namespace CS_LibraryManager {
         public string Author { get; set; }
         public int PublicationYear { get; set; }
         public int Isbn { get; set;}
-        public bool Availability { get; private set; }
+        public bool Availability { get; set; }
 
         public Book() { }
 
@@ -27,7 +27,7 @@ namespace CS_LibraryManager {
         public bool Lend(int isbn) {
             Book bookToLend = library.FindByIsbn(isbn);
             if(bookToLend != null && bookToLend.Availability) {
-                bookToLend.Availability = false;
+                Availability = false;
                 return true;
             }
             return false;
