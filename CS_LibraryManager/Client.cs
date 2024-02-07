@@ -6,5 +6,7 @@ using System.Threading.Tasks;
 
 namespace CS_LibraryManager {
     internal class Client {
+
+        public int MyProperty { get; set; }
     }
 }
