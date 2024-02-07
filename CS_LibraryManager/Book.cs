@@ -22,18 +22,16 @@ namespace CS_LibraryManager {
             Availability = availability;
         }
 
-        Library library = new Library();
-
-        public bool Lend(int isbn) {
+        public bool Lend(int isbn, Library library) {
             Book bookToLend = library.FindByIsbn(isbn);
             if(bookToLend != null && bookToLend.Availability) {
-                Availability = false;
+                bookToLend.Availability = false;
                 return true;
             }
             return false;
         }
 
-        public void Return(int isbn) {
+        public void Return(int isbn, Library library) {
             Book bookToReturn = library.FindByIsbn(isbn);
             if(bookToReturn != null && !bookToReturn.Availability) {
                 bookToReturn.Availability = true;

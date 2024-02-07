@@ -12,7 +12,7 @@ namespace CS_LibraryManager {
             library.AddBook(book2);
             Console.WriteLine(library.ShowCollection());
 
-            book.Lend(139);
+            book.Lend(139, library);
             Console.WriteLine(book);
             Console.WriteLine(library.ShowCollection());
         }
