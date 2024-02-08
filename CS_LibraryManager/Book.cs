@@ -14,12 +14,12 @@ namespace CS_LibraryManager {
 
         public Book() { }
 
-        public Book(string title, string author, int publicationYear, int isbn, bool availability) {
+        public Book(string title, string author, int publicationYear, int isbn) {
             Title = title;
             Author = author;
             PublicationYear = publicationYear;
             Isbn = isbn;
-            Availability = availability;
+            Availability = true;
         }
 
         public bool Lend(int isbn, Library library) {
@@ -44,7 +44,7 @@ namespace CS_LibraryManager {
                 + " | Author: " + Author
                 + " | Publication Year: " + PublicationYear
                 + " | ISBN: " + Isbn
-                + " | Availability: " + availabilityStatus + "\n";
+                + " | Availability: " + availabilityStatus;
         }
     }
 }

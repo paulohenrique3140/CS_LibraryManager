@@ -54,6 +54,10 @@ namespace CS_LibraryManager {
             }
             return null;
         }
+
+        public override string ToString() {
+            return "\nName: " + Name + "\nID: " + Id;
+        }
     }
 }
 

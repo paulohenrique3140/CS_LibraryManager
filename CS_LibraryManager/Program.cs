@@ -7,6 +7,7 @@ namespace CS_LibraryManager {
             List<Client> clientList = new List<Client>();
             Library library = new Library();
             Client client = new Client();
+            Book book = new Book();
             int mainMenuOption = 1;
 
             do {
@@ -16,15 +17,106 @@ namespace CS_LibraryManager {
                 Console.WriteLine("Menu\n\n[1] Library\n[2] Client\n[0] Exit");
                 Console.Write("\nChoose an option: ");
                 mainMenuOption = int.Parse(Console.ReadLine());
+                mainMenuOption = validateOption(mainMenuOption, 2);
                 switch (mainMenuOption) {
                     case 1:
-                        Console.WriteLine("Hello Friend");
+                        Console.WriteLine("\n======== LIBRARY ========");
+                        Console.WriteLine();
+                        Console.WriteLine("Menu\n\n[1] Add book\n[2] Remove book" +
+                            "\n[3] Checking out a book\n[4] Returning a book" +
+                            "\n[5] Find book by ISBN\n[6] Show available books\n[7] Show all collection" +
+                            "\n[0] Return to main menu");
+                        Console.Write("\nChoose an option: ");
+                        int libraryOption = int.Parse(Console.ReadLine());
+                        libraryOption = validateOption(libraryOption, 7);
+                        switch (libraryOption) {
+                            case 1:
+                                Console.WriteLine("\n======== ADDING A BOOK TO COLLECTION ========");
+                                Console.WriteLine();
+                                Console.Write("Title: ");
+                                string title = Console.ReadLine();
+                                Console.Write("Author: ");
+                                string author = Console.ReadLine();
+                                Console.Write("Publication Year: ");
+                                int publicationYear = int.Parse(Console.ReadLine());
+                                Console.Write("ISBN: ");
+                                int isbn = int.Parse(Console.ReadLine());
+                                isbn = validateIsbn(isbn, library);
+                                library.AddBook(new Book(title, author, publicationYear, isbn));
+                                break;
+                            case 2:
+                                Console.WriteLine("\n======== REMOVING A BOOK FROM COLLECTION ========");
+                                Console.WriteLine("\nCollection: \n" + library.ShowCollection());
+                                Console.Write("Enter ISBN book to remove: ");
+                                int removeIsbn = int.Parse(Console.ReadLine());
+                                library.RemoveBook(removeIsbn);
+                                Console.WriteLine("\nUpdated collection: \n" + library.ShowCollection());
+                                break;
+                            case 3:
+                                Console.WriteLine("\n======== CHECKING OUT A BOOK ========");
+                                Console.WriteLine("\nCollection: \n" + library.ShowCollection());
+                                Console.Write("Enter the ISBN of the desired book: ");
+                                int lendIsbn = int.Parse(Console.ReadLine());
+                                Console.Write("Enter the Client ID: ");
+                                int clientId = int.Parse(Console.ReadLine());
+                                if (library.FindByIsbn(lendIsbn) != null) {
+                                    if (book.Lend(lendIsbn, library)) {
+                                        if (client.FindClientById != null) {
+                                            client = client.FindClientById(clientList, clientId);
+                                            client.MakeLoan(lendIsbn, library);
+                                            book.Lend(lendIsbn, library);
+                                        } else {
+                                            Console.WriteLine("Client not found. Please, try again.");
+                                        }
+                                    } else {
+                                        Console.WriteLine("Book's not found or unavailable.");
+                                    }
+                                }
+                                break;
+                        }
                         break;
-                    default:
+                    case 2:
+                        Console.WriteLine("\n======== CLIENT ========");
+                        Console.WriteLine();
+                        Console.WriteLine("Menu\n\n[1] Add client\n[2] Find client by ID" +
+                            "\n[3] Show client book list\n[0] Return to main menu");
+                        Console.Write("\nChoose an option: ");
+                        int clientOption = int.Parse(Console.ReadLine());
+                        clientOption = validateOption(clientOption, 3);
+                        switch (clientOption) {
+                            case 1:
+                                Console.WriteLine("\n======== ADDING A CLIENT TO REGISTER ========");
+                                Console.WriteLine();
+                                Console.Write("Name: ");
+                                string name = Console.ReadLine();
+                                Console.Write("ID: ");
+                                int id = int.Parse(Console.ReadLine());
+                                clientList.Add(new Client(name, id));
+                                break;
+                            case 2:
+                                Console.WriteLine("\n======== SEARCHING A CLIENT BY ID ========");
+                                Console.Write("Enter client ID: ");
+                                int clientIdToFind = int.Parse(Console.ReadLine());
+                                client = client.FindClientById(clientList, clientIdToFind);
+                                Console.WriteLine(client);
+                                break;
+                            case 3:
+                                Console.WriteLine("\n======== CLIENT BOOK LIST ========");
+                                Console.Write("Enter client ID: ");
+                                int clientToBookList = int.Parse(Console.ReadLine());
+                                client = client.FindClientById(clientList, clientToBookList);
+                                Console.WriteLine(client + "\n\nBorrowed book list: \n" + client.ShowClientBookList());
+                                
+                                // ATENTION!!! FIX THIS: THE PROGRAM IS NOT RETURNING DE CLIENT BOOK LIST AFTER A LEND
+                                
+                                break;
+                            default:
+                                break;
+                        }
                         break;
                 }
             } while (mainMenuOption != 0);
-            
+
 
 
             /*Console.WriteLine("Book tests");
@@ -74,6 +166,24 @@ namespace CS_LibraryManager {
             clientTest.PerformReturn(140);
             Console.WriteLine("Client books afget return books: " + clientTest.ShowClientBookList());*/
 
+        }
+
+        public static int validateOption(int option, int limit) {
+            while (option < 0 || option > limit) {
+                Console.Write("\nInvalid option. Try again: ");
+                option = int.Parse(Console.ReadLine());
+            }
+            return option;
+        }
+
+        public static int validateIsbn(int isbn, Library library) {
+            foreach (Book x in library.Collection) {
+                while (x.Isbn == isbn) {
+                    Console.Write("ISBN already exist, please enter another number: ");
+                    isbn = int.Parse(Console.ReadLine());
+                }
+            }
+            return isbn;
         }
     }
 }
