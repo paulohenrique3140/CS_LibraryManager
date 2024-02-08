@@ -11,6 +11,8 @@ namespace CS_LibraryManager {
         public int Id { get; set; }
         public List<Book> borrowedBooks { get; set; }
 
+        public Client() { }
+
         public Client(string name, int id) {
             Name = name;
             Id = id;
@@ -44,7 +46,7 @@ namespace CS_LibraryManager {
             return sb.ToString();
         }
 
-        public static Client FindClientById(List<Client> client, int id) {
+        public Client FindClientById(List<Client> client, int id) {
             foreach (Client x in client) {
                 if (x.Id == id) {
                     return x;

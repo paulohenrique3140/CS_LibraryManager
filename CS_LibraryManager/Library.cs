@@ -42,14 +42,15 @@ namespace CS_LibraryManager {
             return sb.ToString();
         }
 
-        public List<Book> ShowAvailableBooks() {
-            List<Book> availableBooks = new List<Book>();
+        public string ShowAvailableBooks() {
+            StringBuilder sb = new StringBuilder();
             foreach (Book x in Collection) {
                 if (x.Availability) {
-                    availableBooks.Add(x);
+                    sb.AppendLine(x.ToString());
+                    return sb.ToString();
                 }
             }
-            return availableBooks;
+            return "There's no available books";
         }
 
     }
