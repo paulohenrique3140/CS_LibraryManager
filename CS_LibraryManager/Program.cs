@@ -12,9 +12,18 @@ namespace CS_LibraryManager {
             library.AddBook(book2);
             Console.WriteLine(library.ShowCollection());
 
-            book.Lend(139, library);
+            //book.Lend(139, library);
             Console.WriteLine(book);
             Console.WriteLine(library.ShowCollection());
+            Console.WriteLine("=================");
+            Console.WriteLine("Client tests");
+            Console.WriteLine();
+            Console.WriteLine();
+            Client client = new Client("Paulo", 12);
+            client.MakeLoan(139, library);
+            Console.WriteLine("Client book list: " + client.ShowClientBookList());
+            client.PerformReturn(139);
+            Console.WriteLine("Updated client book list: " + client.ShowClientBookList());
         }
     }
 }
