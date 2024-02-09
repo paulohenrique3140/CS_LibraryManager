@@ -9,29 +9,29 @@ namespace CS_LibraryManager {
 
         public string Name { get; set; }
         public int Id { get; set; }
-        public List<Book> borrowedBooks { get; set; }
+        public List<Book> BorrowedBooks { get; set; }
 
         public Client() { }
 
         public Client(string name, int id) {
             Name = name;
             Id = id;
-            borrowedBooks = new List<Book>();
+            BorrowedBooks = new List<Book>();
         }
 
         public bool MakeLoan(int isbn, Library library) {
             Book bookToLoan = library.FindByIsbn(isbn);
             if (bookToLoan != null && bookToLoan.Availability) {
-                borrowedBooks.Add(bookToLoan);
+                BorrowedBooks.Add(bookToLoan);
                 return true;
             }
             return false;
         }
 
         public bool PerformReturn(int isbn) {
-            foreach (Book x in borrowedBooks) {
+            foreach (Book x in BorrowedBooks) {
                 if (x.Isbn == isbn) {
-                    borrowedBooks.Remove(x);
+                    BorrowedBooks.Remove(x);
                     return true;
                 }
             }
@@ -40,14 +40,14 @@ namespace CS_LibraryManager {
 
         public string ShowClientBookList() {
             StringBuilder sb = new StringBuilder();
-            foreach (Book book in borrowedBooks) {
+            foreach (Book book in BorrowedBooks) {
                 sb.AppendLine(book.ToString());
             }
             return sb.ToString();
         }
 
-        public Client FindClientById(List<Client> client, int id) {
-            foreach (Client x in client) {
+        public Client FindClientById(List<Client> clientList, int id) {
+            foreach (Client x in clientList) {
                 if (x.Id == id) {
                     return x;
                 }

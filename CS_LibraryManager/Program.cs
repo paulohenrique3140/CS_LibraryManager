@@ -59,18 +59,18 @@ namespace CS_LibraryManager {
                                 int lendIsbn = int.Parse(Console.ReadLine());
                                 Console.Write("Enter the Client ID: ");
                                 int clientId = int.Parse(Console.ReadLine());
-                                if (library.FindByIsbn(lendIsbn) != null) {
-                                    if (book.Lend(lendIsbn, library)) {
-                                        if (client.FindClientById != null) {
-                                            client = client.FindClientById(clientList, clientId);
-                                            client.MakeLoan(lendIsbn, library);
-                                            book.Lend(lendIsbn, library);
-                                        } else {
-                                            Console.WriteLine("Client not found. Please, try again.");
-                                        }
-                                    } else {
-                                        Console.WriteLine("Book's not found or unavailable.");
+                                if (library.FindByIsbn(lendIsbn) != null && library.FindByIsbn(lendIsbn).Availability) {
+                                    if (client.FindClientById != null) {
+                                        client = client.FindClientById(clientList, clientId);
+                                        client.MakeLoan(lendIsbn, library);
+                                        book.Lend(lendIsbn, library);
                                     }
+                                    else {
+                                        Console.WriteLine("Client not found. Please, try again.");
+                                    }
+                                }
+                                else {
+                                    Console.WriteLine("Book's not found or unavailable.");
                                 }
                                 break;
                         }
@@ -97,19 +97,28 @@ namespace CS_LibraryManager {
                                 Console.WriteLine("\n======== SEARCHING A CLIENT BY ID ========");
                                 Console.Write("Enter client ID: ");
                                 int clientIdToFind = int.Parse(Console.ReadLine());
-                                client = client.FindClientById(clientList, clientIdToFind);
-                                Console.WriteLine(client);
+                                if (client.FindClientById(clientList, clientIdToFind) != null) {
+                                    client = client.FindClientById(clientList, clientIdToFind);
+                                    Console.WriteLine(client);
+                                }
+                                else {
+                                    Console.WriteLine("\nClient's not found.");
+                                }
+
                                 break;
                             case 3:
                                 Console.WriteLine("\n======== CLIENT BOOK LIST ========");
                                 Console.Write("Enter client ID: ");
                                 int clientToBookList = int.Parse(Console.ReadLine());
-                                client = client.FindClientById(clientList, clientToBookList);
-                                Console.WriteLine(client + "\n\nBorrowed book list: \n" + client.ShowClientBookList());
-                                
-                                // ATENTION!!! FIX THIS: THE PROGRAM IS NOT RETURNING DE CLIENT BOOK LIST AFTER A LEND
-                                
+                                Client foundClient = client.FindClientById(clientList, clientToBookList);
+                                if (foundClient != null) {
+                                    Console.WriteLine(foundClient.ShowClientBookList());
+                                }
+                                else {
+                                    Console.WriteLine("\nClient's not found.");
+                                }
                                 break;
+
                             default:
                                 break;
                         }
