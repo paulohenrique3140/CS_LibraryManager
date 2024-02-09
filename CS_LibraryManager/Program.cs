@@ -49,8 +49,12 @@ namespace CS_LibraryManager {
                                 Console.WriteLine("\nCollection: \n" + library.ShowCollection());
                                 Console.Write("Enter ISBN book to remove: ");
                                 int removeIsbn = int.Parse(Console.ReadLine());
-                                library.RemoveBook(removeIsbn);
-                                Console.WriteLine("\nUpdated collection: \n" + library.ShowCollection());
+                                if (library.FindByIsbn(removeIsbn) != null) {
+                                    library.RemoveBook(removeIsbn);
+                                    Console.WriteLine("\nUpdated collection: \n" + library.ShowCollection());
+                                } else {
+                                    Console.WriteLine($"\nISBN {removeIsbn} is not exists.");
+                                }
                                 break;
                             case 3:
                                 Console.WriteLine("\n======== CHECKING OUT A BOOK ========");
@@ -64,6 +68,7 @@ namespace CS_LibraryManager {
                                         client = client.FindClientById(clientList, clientId);
                                         client.MakeLoan(lendIsbn, library);
                                         book.Lend(lendIsbn, library);
+                                        Console.WriteLine("\nDone! Check the client book list.");
                                     }
                                     else {
                                         Console.WriteLine("Client not found. Please, try again.");
@@ -71,6 +76,27 @@ namespace CS_LibraryManager {
                                 }
                                 else {
                                     Console.WriteLine("Book's not found or unavailable.");
+                                }
+                                break;
+                            case 4:
+                                Console.WriteLine("\n======== RETURNING A BOOK ========");
+                                Console.Write("\nEnter the client ID: ");
+                                int idReturn = int.Parse(Console.ReadLine());
+                                if (client.FindClientById(clientList, idReturn) != null) {
+                                    Console.WriteLine("\nClient book list: \n" + client.ShowClientBookList());
+                                    Console.WriteLine("\nEnter the book isnb to return: ");
+                                    int isbnReturn = int.Parse(Console.ReadLine());
+                                    if (client.PerformReturn(isbnReturn)) {
+                                        book.Return(isbnReturn, library);
+                                        Console.WriteLine("\nDone!\nUpdated client book list: \n" + client.ShowClientBookList());
+                                        Console.WriteLine("\nUpdated all library collection: \n" + library.ShowCollection());
+                                        Console.WriteLine("\nUpdated library available collection: \n" + library.ShowAvailableBooks());
+                                    } else {
+                                        Console.WriteLine("\nISBN {0} not found in the client book list" + isbnReturn);
+                                        
+                                    }
+                                } else {
+                                    Console.WriteLine("Client with ID {0} not found" + idReturn);
                                 }
                                 break;
                         }
@@ -91,6 +117,7 @@ namespace CS_LibraryManager {
                                 string name = Console.ReadLine();
                                 Console.Write("ID: ");
                                 int id = int.Parse(Console.ReadLine());
+                                id = validateId(id, clientList);
                                 clientList.Add(new Client(name, id));
                                 break;
                             case 2:
@@ -193,6 +220,16 @@ namespace CS_LibraryManager {
                 }
             }
             return isbn;
+        }
+
+        public static int validateId(int id, List<Client> clientList) {
+            foreach (Client x in clientList) {
+                while (x.Id == id) {
+                    Console.Write("ID already exist, please enter another number: ");
+                    id = int.Parse(Console.ReadLine());
+                }
+            }
+            return id;
         }
     }
 }
