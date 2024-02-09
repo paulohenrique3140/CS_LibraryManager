@@ -52,7 +52,8 @@ namespace CS_LibraryManager {
                                 if (library.FindByIsbn(removeIsbn) != null) {
                                     library.RemoveBook(removeIsbn);
                                     Console.WriteLine("\nUpdated collection: \n" + library.ShowCollection());
-                                } else {
+                                }
+                                else {
                                     Console.WriteLine($"\nISBN {removeIsbn} is not exists.");
                                 }
                                 break;
@@ -89,15 +90,38 @@ namespace CS_LibraryManager {
                                     if (client.PerformReturn(isbnReturn)) {
                                         book.Return(isbnReturn, library);
                                         Console.WriteLine("\nDone!\nUpdated client book list: \n" + client.ShowClientBookList());
-                                        Console.WriteLine("\nUpdated all library collection: \n" + library.ShowCollection());
-                                        Console.WriteLine("\nUpdated library available collection: \n" + library.ShowAvailableBooks());
-                                    } else {
-                                        Console.WriteLine("\nISBN {0} not found in the client book list" + isbnReturn);
-                                        
+                                        Console.WriteLine("\nUpdated library available books in collection: \n"
+                                            + library.ShowAvailableBooks());
                                     }
-                                } else {
+                                    else {
+                                        Console.WriteLine("\nISBN {0} not found in the client book list" + isbnReturn);
+
+                                    }
+                                }
+                                else {
                                     Console.WriteLine("Client with ID {0} not found" + idReturn);
                                 }
+                                break;
+                            case 5:
+                                Console.WriteLine("\n======== SEARCHING A BOOK BY ISBN ========");
+                                Console.Write("\nEnter book ISBN: ");
+                                int isbnToFind = int.Parse(Console.ReadLine());
+                                if (library.FindByIsbn(isbnToFind) != null) {
+                                    Console.WriteLine("\nResult: " + library.FindByIsbn(isbnToFind));
+                                }
+                                else {
+                                    Console.WriteLine("\nBook's not found.");
+                                }
+                                break;
+                            case 6:
+                                Console.WriteLine("\n======== AVAILABLE BOOKS IN COLLECTION ========");
+                                Console.WriteLine(library.ShowAvailableBooks());
+                                break;
+                            case 7:
+                                Console.WriteLine("\n======== ALL LIBRARY COLLECTION ========");
+                                Console.WriteLine(library.ShowCollection);
+                                break;
+                            default:
                                 break;
                         }
                         break;
@@ -152,56 +176,6 @@ namespace CS_LibraryManager {
                         break;
                 }
             } while (mainMenuOption != 0);
-
-
-
-            /*Console.WriteLine("Book tests");
-            Console.WriteLine();
-            Book book = new Book("1984", "George Orwell", 1949, 139, true);
-            Book book2 = new Book("1985", "George Orwell", 1949, 140, true);
-            Console.WriteLine("Book 1: " + book);
-            Console.WriteLine("Book 2: " + book2);
-            Console.WriteLine();
-            Console.WriteLine("Library + book tests");
-            Library library = new Library();
-            library.AddBook(book);
-            library.AddBook(book2);
-            Console.WriteLine("Collection: " + library.ShowCollection());
-
-            book.Lend(139, library);
-            
-            Console.WriteLine("Book after lend: " + book);
-            Console.WriteLine("Updated collection after lend: " + library.ShowCollection());
-            Console.WriteLine("Available book list: " + library.ShowAvailableBooks());
-            book.Return(139, library);
-            Console.WriteLine("Book after return: " + book);
-            Console.WriteLine("Updated collection after return: " + library.ShowCollection());
-            Console.WriteLine("=================");
-            Console.WriteLine("Client tests");
-            Console.WriteLine();
-            Console.WriteLine();
-            Client client = new Client("Paulo", 12);
-            Console.WriteLine("Client book list before make loan: " + client.ShowClientBookList());
-            client.MakeLoan(139, library);
-            Console.WriteLine("Client book list after make loan: " + client.ShowClientBookList());
-            client.PerformReturn(139);
-            Console.WriteLine("Updated client book list after return: " + client.ShowClientBookList());
-            Console.WriteLine();
-            Console.WriteLine("Test with Find Client By Id");
-            Console.WriteLine("Collection: " + library.ShowCollection());
-            List<Client> clientList = new List<Client>();
-            clientList.Add(client);
-            Console.WriteLine("Enter id:");
-            int id = int.Parse(Console.ReadLine());
-            Client clientTest = new Client();
-            clientTest = clientTest.FindClientById(clientList, id);
-            clientTest.MakeLoan(139, library);
-            clientTest.MakeLoan(140, library);
-            Console.WriteLine("Client books after make loan: " + clientTest.ShowClientBookList());
-            clientTest.PerformReturn(139);
-            clientTest.PerformReturn(140);
-            Console.WriteLine("Client books afget return books: " + clientTest.ShowClientBookList());*/
-
         }
 
         public static int validateOption(int option, int limit) {

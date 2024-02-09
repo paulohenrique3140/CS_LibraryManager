@@ -47,10 +47,14 @@ namespace CS_LibraryManager {
             foreach (Book x in Collection) {
                 if (x.Availability) {
                     sb.AppendLine(x.ToString());
-                    return sb.ToString();
                 }
             }
-            return "There's no available books";
+            if (sb.Length == 0) {
+                return "\nThere's no available books";
+            } else {
+                return sb.ToString();
+            }
+            
         }
 
     }
