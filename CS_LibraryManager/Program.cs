@@ -17,7 +17,7 @@ namespace CS_LibraryManager {
                 Console.WriteLine("Menu\n\n[1] Library\n[2] Client\n[0] Exit");
                 Console.Write("\nChoose an option: ");
                 mainMenuOption = int.Parse(Console.ReadLine());
-                mainMenuOption = validateOption(mainMenuOption, 2);
+                mainMenuOption = ValidateOption(mainMenuOption, 2);
                 switch (mainMenuOption) {
                     case 1:
                         Console.WriteLine("\n======== LIBRARY ========");
@@ -28,7 +28,7 @@ namespace CS_LibraryManager {
                             "\n[0] Return to main menu");
                         Console.Write("\nChoose an option: ");
                         int libraryOption = int.Parse(Console.ReadLine());
-                        libraryOption = validateOption(libraryOption, 7);
+                        libraryOption = ValidateOption(libraryOption, 7);
                         switch (libraryOption) {
                             case 1:
                                 Console.WriteLine("\n======== ADDING A BOOK TO COLLECTION ========");
@@ -41,8 +41,11 @@ namespace CS_LibraryManager {
                                 int publicationYear = int.Parse(Console.ReadLine());
                                 Console.Write("ISBN: ");
                                 int isbn = int.Parse(Console.ReadLine());
-                                isbn = validateIsbn(isbn, library);
-                                library.AddBook(new Book(title, author, publicationYear, isbn));
+                                if (HasIsbn(isbn, library)) {
+                                    Console.WriteLine("ISBN already exist. Please, try again.");
+                                } else {
+                                    library.AddBook(new Book(title, author, publicationYear, isbn));
+                                }
                                 break;
                             case 2:
                                 Console.WriteLine("\n======== REMOVING A BOOK FROM COLLECTION ========");
@@ -119,7 +122,7 @@ namespace CS_LibraryManager {
                                 break;
                             case 7:
                                 Console.WriteLine("\n======== ALL LIBRARY COLLECTION ========");
-                                Console.WriteLine(library.ShowCollection);
+                                Console.WriteLine(library.ShowCollection());
                                 break;
                             default:
                                 break;
@@ -132,7 +135,7 @@ namespace CS_LibraryManager {
                             "\n[3] Show client book list\n[0] Return to main menu");
                         Console.Write("\nChoose an option: ");
                         int clientOption = int.Parse(Console.ReadLine());
-                        clientOption = validateOption(clientOption, 3);
+                        clientOption = ValidateOption(clientOption, 3);
                         switch (clientOption) {
                             case 1:
                                 Console.WriteLine("\n======== ADDING A CLIENT TO REGISTER ========");
@@ -141,8 +144,11 @@ namespace CS_LibraryManager {
                                 string name = Console.ReadLine();
                                 Console.Write("ID: ");
                                 int id = int.Parse(Console.ReadLine());
-                                id = validateId(id, clientList);
-                                clientList.Add(new Client(name, id));
+                                if (HasId(id, clientList)) {
+                                    Console.WriteLine("ID already exists. Please try again.");
+                                } else {
+                                    clientList.Add(new Client(name, id));
+                                }
                                 break;
                             case 2:
                                 Console.WriteLine("\n======== SEARCHING A CLIENT BY ID ========");
@@ -155,7 +161,6 @@ namespace CS_LibraryManager {
                                 else {
                                     Console.WriteLine("\nClient's not found.");
                                 }
-
                                 break;
                             case 3:
                                 Console.WriteLine("\n======== CLIENT BOOK LIST ========");
@@ -178,7 +183,7 @@ namespace CS_LibraryManager {
             } while (mainMenuOption != 0);
         }
 
-        public static int validateOption(int option, int limit) {
+        public static int ValidateOption(int option, int limit) {
             while (option < 0 || option > limit) {
                 Console.Write("\nInvalid option. Try again: ");
                 option = int.Parse(Console.ReadLine());
@@ -186,24 +191,22 @@ namespace CS_LibraryManager {
             return option;
         }
 
-        public static int validateIsbn(int isbn, Library library) {
+        public static bool HasIsbn(int isbn, Library library) {
             foreach (Book x in library.Collection) {
                 while (x.Isbn == isbn) {
-                    Console.Write("ISBN already exist, please enter another number: ");
-                    isbn = int.Parse(Console.ReadLine());
+                    return true;
                 }
             }
-            return isbn;
+            return false;
         }
 
-        public static int validateId(int id, List<Client> clientList) {
+        public static bool HasId(int id, List<Client> clientList) {
             foreach (Client x in clientList) {
-                while (x.Id == id) {
-                    Console.Write("ID already exist, please enter another number: ");
-                    id = int.Parse(Console.ReadLine());
+                if (x.Id == id) {
+                    return true;
                 }
             }
-            return id;
+            return false;
         }
     }
 }
